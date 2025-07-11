@@ -7,10 +7,12 @@ const AddTransaction = () => {
     const [category, setCategory] = useState();
     const [description, setDescription] = useState();
     const [date, setDate] = useState();
-
+    
     const handleSubmit= (e) =>{
         e.preventDefault();
-        const transactions = {
+        
+        let storedTransactions= JSON.parse(localStorage.getItem("Transactions")) || [];
+        const newTransactions = {
             transactionType,
             amount,
             category,
@@ -18,8 +20,14 @@ const AddTransaction = () => {
             date,
         }
 
-        localStorage.setItem("Transactions", JSON.stringify(transactions));
+        const transactionArray= [...storedTransactions, newTransactions];
+        localStorage.setItem("Transactions", JSON.stringify(transactionArray));
+        
+        
     }
+
+    
+    
     
   return (
     <form className='mt-15 p-5'>
