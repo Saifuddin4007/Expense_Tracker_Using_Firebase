@@ -18,6 +18,7 @@ const Transaction = () => {
             <th className='border border-gray-400 px-4 py-2'>Date</th>
             <th className='border border-gray-400 px-4 py-2'>Description</th>
             <th className='border border-gray-400 px-4 py-2'>Transaction Type</th>
+            <th className='border border-gray-400 px-4 py-2'>Action</th>
             
           </thead>
 
@@ -32,6 +33,10 @@ const Transaction = () => {
                   <td className='border border-gray-400 px-4 py-2'>{val.date}</td>
                   <td className='border border-gray-400 px-4 py-2'>{val.description}</td>
                   <td className='border border-gray-400 px-4 py-2'>{val.transactionType}</td>
+                  <td className='border border-gray-400 px-4 py-2'>
+                    <button className='p-2.5 bg-green-300 border-0 outline-0 m-1.5 w-[100px] rounded-3xl'>Edit</button>
+                    <button className='p-2.5 bg-red-300 border-0 outline-0 m-1.5 w-[100px] rounded-3xl'>Delete</button>
+                    </td>
                 </tr>
                 
               ))
