@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Cards from '../components/Cards'
+import Cards from '../components/Cards';
+import CardTransaction from '../components/CardTransaction';
+import { useNavigate } from 'react-router-dom';
 
 const DashBoard = () => {
 
@@ -8,6 +10,7 @@ const DashBoard = () => {
     const [finalIncome, setFinalIncome] = useState(0)
     const [finalExpense, setFinalExpense] = useState(0)
     const [balance, setBalance] = useState(0)
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -29,6 +32,9 @@ const DashBoard = () => {
 
     }, []);
 
+    const handleAddTransaction = () =>{
+        navigate('/add-transaction');
+    }
 
 
 
@@ -36,9 +42,19 @@ const DashBoard = () => {
     <>
       <div className='flex flex-row justify-between m-4'>
         <h3 className='font-bold text-2xl p-2 m-2'>Dashboard</h3>
-        <button className='bg-emerald-400 text-center w-[150px] rounded-2xl'>+Add Transaction</button>
+        <button className='bg-emerald-400 text-center w-[150px] rounded-2xl cursor-pointer' onClick={handleAddTransaction}>+Add Transaction</button>
       </div>
       <Cards finalIncome={finalIncome} finalExpense={finalExpense} balance={balance} />
+
+      <div className='flex flex-row'>
+        <div className='w-1/2 m-5 bg-gray-400 p-3 rounded'>
+          <h1 className='font-bold text-2xl p-3 m-3'>Recent Transaction</h1>
+          <CardTransaction transaction={transaction} />
+        </div>
+        <div className='w-1/2 m-5 bg-gray-400 p-3 rounded'>
+
+        </div>
+      </div>
     </>
   )
 }
