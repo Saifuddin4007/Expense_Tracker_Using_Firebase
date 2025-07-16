@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AddTransaction = () => {
     const [transactionType, setTransactionType] = useState("expense");
@@ -11,12 +12,14 @@ const AddTransaction = () => {
     const location = useLocation();
     const[transaction, setTransaction]= useState([]);
     const[edit,setEdit]= useState(null);
+    const navigate = useNavigate();
     
     const handleSubmit= (e) =>{
         e.preventDefault();
         if(!amount || !category || !date || !description){
             return;
         }
+        
         
         const newTransactions = {
             transactionType,
@@ -25,31 +28,37 @@ const AddTransaction = () => {
             description,
             date,
         }
+        
+        
+        let transactionArray;
+        if(edit==null){
+            transactionArray= [...transaction, newTransactions];
+            
+            
+        }else{
+            transactionArray=[...transaction];
+            transactionArray[edit]=newTransactions;
+            
+        }
+        
+        // setTransaction(transactionArray);
+        localStorage.setItem("Transactions", JSON.stringify(transactionArray));
+
         setDescription("");
         setAmount("");
         setDate("");
         setCategory("");
-
         
-        let transactionArray;
-        if(edit===null){
-            transactionArray= [...transaction, newTransactions];
-        }else{
-            transactionArray=[...transaction];
-            transactionArray[edit]=newTransactions;
-        }
-        
-        localStorage.setItem("Transactions", JSON.stringify(transactionArray));
-        
+        navigate('/transaction');
         
     }
 
     useEffect(() => {
-      console.log(location.state);
+      
         let storedTransactions= JSON.parse(localStorage.getItem("Transactions")) || [];
         setTransaction(storedTransactions);
       if(location.state && location.state.transaction){
-        const{transaction}= location.state;
+        const transaction = location.state.transaction;
         setTransactionType(transaction.transactionType);
         setAmount(transaction.amount);
         setCategory(transaction.category);
@@ -82,12 +91,12 @@ const AddTransaction = () => {
 
                 <select value={category} onChange={(e)=>setCategory(e.target.value)} className='bg-gray-500 p-2 rounded w-[400px] border-0 outline-0'>
                     <option value="">Types</option>
-                    <option value="market">Market</option>
-                    <option value="entertainment">Entertainment</option>
-                    <option value="shopping">Shopping</option>
-                    <option value="salary">Salary</option>
-                    <option value="items">Items</option>
-                    <option value="somethingelse">Something Else</option>
+                    <option value="Market">Market</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Items">Items</option>
+                    <option value="Something Else">Something Else</option>
                 </select>
                 <textarea value={description} onChange={(e)=>setDescription(e.target.value)} placeholder='Description' className='bg-gray-500 p-2 rounded w-[400px] h-[100px] border-0 outline-0'></textarea>
                 <input type="date" value={date} onChange={(e)=>setDate(e.target.value)} className='bg-gray-500 p-2 rounded w-[400px] border-0 outline-0'/>
