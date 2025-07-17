@@ -5,6 +5,7 @@ import CardTransaction from '../components/CardTransaction';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from "react";
 import { Bar } from "react-chartjs-2";
+
 import {
   Chart as ChartJs,
   CategoryScale,
@@ -14,6 +15,7 @@ import {
   Tooltip,
   Legend
 } from "chart.js";
+import NullTransactions from '../components/NullTransactions';
 
 ChartJs.register(
   CategoryScale,
@@ -145,11 +147,14 @@ const DashBoard = () => {
       <div className='flex flex-row'>
         <div className='w-1/2 m-5 bg-gray-400 p-3 rounded h-[500px]'>
           <h1 className='font-bold text-2xl p-3 m-3'>Recent Transaction</h1>
-          <CardTransaction transaction={transaction} />
+          {transaction.length===0?<NullTransactions />: <CardTransaction transaction={transaction} />}
+          
         </div>
         <div className='w-1/2 m-5 bg-gray-400 p-3 rounded h-[500px] overflow-x-auto'>
           <h1 className='font-bold text-2xl p-3 m-3'>Expense By Category</h1>
-          <Bar data={chartData} options={chartOptions} />
+          {chartData.datasets[0].data.every((val)=> val===0) ? (<NullTransactions />): <Bar data={chartData} options={chartOptions} /> }
+          
+          
         </div>
       </div>
     </>
