@@ -2,75 +2,69 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import {useAddTransaction} from '../hooks/useAddTransaction';
+
 
 const AddTransaction = () => {
     const [transactionType, setTransactionType] = useState("expense");
-    const [amount, setAmount] = useState();
+    const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState();
     const [description, setDescription] = useState();
     const [date, setDate] = useState();
     const location = useLocation();
     const[transaction, setTransaction]= useState([]);
-    const[edit,setEdit]= useState(null);
+    const[editId,setEditId]= useState(null);
     const navigate = useNavigate();
+    const {addTransaction, updateTransaction}= useAddTransaction();
     
-    const handleSubmit= (e) =>{
+
+
+    useEffect(() => {
+        if (location.state && location.state.transaction) {
+            const transaction = location.state.transaction;
+            setTransactionType(transaction.transactionType);
+            setAmount(transaction.amount);
+            setCategory(transaction.category);
+            setDescription(transaction.description);
+            setDate(transaction.date);
+            setEditId(transaction.id);
+        }
+    }, [location]);
+    
+    const handleSubmit= async (e) =>{
         e.preventDefault();
         if(!amount || !category || !date || !description){
             return;
         }
-        
-        
-        const newTransactions = {
-            transactionType,
-            amount,
-            category,
-            description,
-            date,
+
+        if (editId) {
+            await updateTransaction(editId, {
+                transactionType,
+                amount,
+                category,
+                description,
+                date,
+            });
+        } else {
+            await addTransaction({
+                transactionType,
+                amount,
+                category,
+                description,
+                date,
+            });
         }
         
-        
-        let transactionArray;
-        if(edit==null){
-            transactionArray= [...transaction, newTransactions];
-            
-            
-        }else{
-            transactionArray=[...transaction];
-            transactionArray[edit]=newTransactions;
-            
-        }
-        
-        // setTransaction(transactionArray);
-        localStorage.setItem("Transactions", JSON.stringify(transactionArray));
 
         setDescription("");
-        setAmount("");
+        setAmount();
         setDate("");
         setCategory("");
         
         navigate('/transaction');
         
     }
-
-    useEffect(() => {
-      
-        let storedTransactions= JSON.parse(localStorage.getItem("Transactions")) || [];
-        setTransaction(storedTransactions);
-      if(location.state && location.state.transaction){
-        const transaction = location.state.transaction;
-        setTransactionType(transaction.transactionType);
-        setAmount(transaction.amount);
-        setCategory(transaction.category);
-        setDescription(transaction.description);
-        setDate(transaction.date);
-        setEdit(transaction.ind);
-
-      }
-    }, [location])
-    
-    
-    
+  
     
   return (
     <form className='mt-15 p-5'>
@@ -100,7 +94,7 @@ const AddTransaction = () => {
                 </select>
                 <textarea value={description} onChange={(e)=>setDescription(e.target.value)} placeholder='Description' className='bg-gray-500 p-2 rounded w-[400px] h-[100px] border-0 outline-0'></textarea>
                 <input type="date" value={date} onChange={(e)=>setDate(e.target.value)} className='bg-gray-500 p-2 rounded w-[400px] border-0 outline-0'/>
-                <button onClick={(e)=>handleSubmit(e)} className='bg-yellow-200 p-3 m-2 rounded w-[350px] border-0 outline-0'>{edit===null?'Add':'Update'}</button>
+                <button onClick={(e)=>handleSubmit(e)} className='bg-yellow-200 p-3 m-2 rounded w-[350px] border-0 outline-0'>{editId===null?'Add':'Update'}</button>
                 
                 
             </div>
@@ -110,3 +104,6 @@ const AddTransaction = () => {
 }
 
 export default AddTransaction
+
+
+
