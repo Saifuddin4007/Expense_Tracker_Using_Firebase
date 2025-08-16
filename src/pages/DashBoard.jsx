@@ -72,22 +72,44 @@ const DashBoard = () => {
 
     return (
         <>
-            <div className='flex flex-row justify-between m-4'>
-                <h3 className='font-bold text-2xl p-2 m-2'>Dashboard</h3>
-                <button className='bg-emerald-400 text-center w-[150px] rounded-2xl cursor-pointer' onClick={() => navigate('/add-transaction')}>
-                    +Add Transaction
+            {/* Header */}
+            <div className='flex flex-col sm:flex-row justify-between m-4 gap-3 sm:gap-0'>
+                <h3 className='font-bold text-xl sm:text-2xl p-2 m-0'>Dashboard</h3>
+                <button
+                    className='bg-[#A4DEF9] text-center w-full sm:w-[150px] rounded-2xl cursor-pointer py-2 sm:py-0'
+                    onClick={() => navigate('/add-transaction')}
+                >
+                    + Add Transaction
                 </button>
             </div>
-            <Cards finalIncome={income} finalExpense={expense} totalBalance={balance} />
-            <div className='flex flex-row'>
-                <div className='w-1/2 m-5 bg-gray-400 p-3 rounded h-[500px]'>
-                    <h1 className='font-bold text-2xl p-3 m-3'>Recent Transaction</h1>
-                    {transactions.length === 0 ? <NullTransactions /> : <CardTransaction transaction={transactions} />}
+
+            {/* Cards */}
+             <Cards finalIncome={income} finalExpense={expense} totalBalance={balance} />
+
+
+
+            {/* Two-column layout for desktop, stacked for mobile */}
+            <div className='flex flex-col lg:flex-row'>
+                {/* Left panel */}
+                <div className='w-full lg:w-1/2 m-3 bg-[#C1E0F7] p-3 rounded h-auto lg:h-[500px]'>
+                    <h1 className='font-bold text-xl sm:text-2xl p-3'>Recent Transaction</h1>
+                    {transactions.length === 0
+                        ? <NullTransactions />
+                        : <CardTransaction transaction={transactions} />}
                 </div>
-                <div className='w-1/2 m-5 bg-gray-400 p-3 rounded h-[500px] overflow-x-auto'>
-                    <h1 className='font-bold text-2xl p-3 m-3'>Expense By Category</h1>
-                    {chartData.datasets[0].data.every(val => val === 0) ? <NullTransactions /> : <Bar data={chartData} options={chartOptions} />}
-                </div>
+
+                {/* Right panel */}
+<div className='w-full lg:w-1/2 m-3 bg-[#C1E0F7] p-3 rounded h-auto lg:h-[500px] lg:overflow-y-auto'>
+    <h1 className='font-bold text-xl sm:text-2xl p-3'>Expense By Category</h1>
+    {chartData.datasets[0].data.every(val => val === 0)
+        ? <NullTransactions />
+        : (
+            <div className='h-[300px] lg:h-auto lg:min-h-[400px]'>
+                <Bar data={chartData} options={chartOptions} />
+            </div>
+        )}
+</div>
+
             </div>
         </>
     );
