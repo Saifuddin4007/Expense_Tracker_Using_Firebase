@@ -124,7 +124,7 @@ const AddTransaction = () => {
 
                     <button
                         onClick={(e) => handleSubmit(e)}
-                        className="bg-yellow-200 p-3 m-2 rounded w-full sm:w-[350px] border-0 outline-0"
+                        className="bg-[#C59FC9] p-3 m-2 rounded w-full sm:w-[350px] border-0 outline-0 cursor-pointer"
                     >
                         {editId === null ? 'Add' : 'Update'}
                     </button>
