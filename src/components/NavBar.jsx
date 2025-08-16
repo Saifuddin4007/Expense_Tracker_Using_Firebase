@@ -20,10 +20,10 @@ const NavBar = () => {
 
   return (
     <>
-      <nav className="flex justify-between items-center p-3 bg-blue-300 relative">
+      <nav className="flex justify-between items-center p-3 bg-[#A4DEF9] relative">
         {/* Logo */}
         <h1
-          className="font-bold text-2xl"
+          className="font-bold text-2xl "
           style={{ fontFamily: 'Kaushan Script, cursive' }}
         >
           Expense Tracker
@@ -44,7 +44,7 @@ const NavBar = () => {
           <li
             className={
               location.pathname === '/dashboard'
-                ? 'font-bold text-gray-700'
+                ? 'font-bold text-[#C59FC9]'
                 : ''
             }
           >
@@ -52,7 +52,7 @@ const NavBar = () => {
           </li>
           <li
             className={
-              location.pathname === '/report' ? 'font-bold text-gray-700' : ''
+              location.pathname === '/report' ? 'font-bold text-[#C59FC9]' : ''
             }
           >
             <Link to={'/report'}>&#128209;Report</Link>
@@ -60,7 +60,7 @@ const NavBar = () => {
           <li
             className={
               location.pathname === '/transaction'
-                ? 'font-bold text-gray-700'
+                ? 'font-bold text-[#C59FC9]'
                 : ''
             }
           >
