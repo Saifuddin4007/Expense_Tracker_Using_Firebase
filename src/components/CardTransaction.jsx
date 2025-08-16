@@ -6,7 +6,7 @@ const CardTransaction = ({ transaction }) => {
             {transaction.slice(-5).reverse().map((val) => (
                 <li 
                     key={val.id} 
-                    className="text-sm sm:text-base font-light flex flex-col sm:flex-row sm:justify-between bg-neutral-500 p-2 sm:p-3 m-2 sm:m-3 rounded-2xl break-words"
+                    className="text-sm sm:text-base font-light flex flex-col sm:flex-row sm:justify-between bg-[#97F9F9] p-2 sm:p-3 m-2 sm:m-3 rounded-2xl break-words"
                 >
                     <span className="mb-1 sm:mb-0">{val.category}</span>
                     <span 
