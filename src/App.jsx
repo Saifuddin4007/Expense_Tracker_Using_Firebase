@@ -6,6 +6,7 @@ import Transaction from './pages/Transaction'
 import NavBar from './components/NavBar'
 import AddTransaction from './pages/AddTransaction'
 import Authentication from './pages/auth/Authentication'
+import EmailAuth from './pages/auth/EmailAuth'
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -30,6 +31,7 @@ const App = () => {
           <Route path='/report' element={<Report />} />
           <Route path='/transaction' element={<Transaction />} />
           <Route path='/add-transaction' element={<AddTransaction />} />
+          <Route path='/email-auth' element={<EmailAuth />} />
         </Routes>
       </Layout>
       </BrowserRouter>
